@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/tenebresus/djensen_server/pkg/db"
@@ -29,6 +30,7 @@ func Run() {
 
 func getSongData(w http.ResponseWriter, r *http.Request) {
 
+    log.Println("Received request for song data!")
     song_id := r.PathValue("song")
     songs, _ := db.Find("*", "id = " + song_id)
 
