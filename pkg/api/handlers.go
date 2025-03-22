@@ -21,7 +21,29 @@ func Run() {
 
     http.HandleFunc("/api/songs", getSongs)
     http.HandleFunc("/api/songs/{song}", getSongInfo)
+    http.HandleFunc("/api/songs/{song}/timestamps", getSongTimestamps)
+    http.HandleFunc("/api/songs/{song}/song_data", getSongData)
     http.ListenAndServe(":8080", nil)
+
+}
+
+func getSongData(w http.ResponseWriter, r *http.Request) {
+
+    song_id := r.PathValue("song")
+    songs, _ := db.Find("*", "id = " + song_id)
+
+    ret := []byte(songs[0].Song)
+    w.Write(ret)
+
+}
+
+func getSongTimestamps(w http.ResponseWriter, r *http.Request) {
+
+    song_id := r.PathValue("song")
+    songs, _ := db.Find("*", "id = " + song_id)
+
+    ret := []byte(songs[0].Timestamps_encoding)
+    w.Write(ret)
 
 }
 
