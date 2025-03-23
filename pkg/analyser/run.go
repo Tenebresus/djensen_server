@@ -111,6 +111,9 @@ func getTimestampsFromSpectrum(spectopic_path string) []string {
     }
 
     bmp_image, err := bmp.Decode(bytes.NewReader(file))
+    if err != nil {
+        log.Fatal(err)
+    }
 
     var ret []string
     elapsed_ms := 0

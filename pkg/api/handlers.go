@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/tenebresus/djensen_server/pkg/db"
 )
@@ -35,17 +36,22 @@ func getSongData(w http.ResponseWriter, r *http.Request) {
     songs, _ := db.Find("*", "id = " + song_id)
 
     ret := []byte(songs[0].Song)
+    w.Header().Set("Content-Length", strconv.Itoa(len(ret)))
     w.Write(ret)
 
+    log.Println("Sent song data to client!")
 }
 
 func getSongTimestamps(w http.ResponseWriter, r *http.Request) {
 
+    log.Println("Received request for song timestamps!")
     song_id := r.PathValue("song")
     songs, _ := db.Find("*", "id = " + song_id)
 
     ret := []byte(songs[0].Timestamps_encoding)
     w.Write(ret)
+
+    log.Println("Sent timestamps to client!")
 
 }
 
